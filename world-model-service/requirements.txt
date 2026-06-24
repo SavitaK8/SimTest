@@ -1,0 +1,6 @@
+fastapi==0.103.1
+uvicorn==0.23.2
+torch==2.0.1
+torch_geometric
+pydantic==2.3.0
+faiss-cpu

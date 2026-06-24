@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SimTest Technical Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<div id="app">
+  <!-- Header -->
+  <header id="app-header">
+    <div class="logo">
+      <span class="logo-icon">◆</span>
+      <h1>SimTest // Explorer</h1>
+    </div>
+    <div class="header-nav">
+      <a href="#" class="nav-item active" data-tab="bugs">Bugs (<span id="nav-bug-count">0</span>)</a>
+      <a href="#" class="nav-item" data-tab="states">State Registry</a>
+      <a href="#" class="nav-item" data-tab="transitions">Transitions</a>
+    </div>
+  </header>
+
+  <div class="layout-container">
+    <!-- Main Content (Left) -->
+    <main class="main-content">
+      
+      <!-- Tab: Bugs -->
+      <div id="tab-bugs" class="tab-pane active">
+        <div class="panel-header">
+          <h2>Bug Reports & Violations</h2>
+        </div>
+        <table class="data-table" id="table-bugs">
+          <thead>
+            <tr>
+              <th width="10%">ID</th>
+              <th width="10%">Severity</th>
+              <th width="20%">Type</th>
+              <th width="40%">Description</th>
+              <th width="20%">State URL</th>
+            </tr>
+          </thead>
+          <tbody id="bugs-tbody">
+            <!-- Populated by JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Tab: States -->
+      <div id="tab-states" class="tab-pane">
+        <div class="panel-header">
+          <h2>State Registry</h2>
+          <span class="panel-subtitle">Unique logical states discovered during BFS.</span>
+        </div>
+        <table class="data-table" id="table-states">
+          <thead>
+            <tr>
+              <th width="20%">State ID</th>
+              <th width="50%">URL</th>
+              <th width="15%">Explored</th>
+              <th width="15%">Has Bug</th>
+            </tr>
+          </thead>
+          <tbody id="states-tbody">
+            <!-- Populated by JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Tab: Transitions -->
+      <div id="tab-transitions" class="tab-pane">
+        <div class="panel-header">
+          <h2>Execution Transitions</h2>
+          <span class="panel-subtitle">Actions taken between states.</span>
+        </div>
+        <table class="data-table" id="table-transitions">
+          <thead>
+            <tr>
+              <th width="25%">From State</th>
+              <th width="50%">Action Executed</th>
+              <th width="25%">To State</th>
+            </tr>
+          </thead>
+          <tbody id="transitions-tbody">
+            <!-- Populated by JS -->
+          </tbody>
+        </table>
+      </div>
+
+    </main>
+
+    <!-- Sidebar (Right) -->
+    <aside class="sidebar">
+      <div class="sidebar-panel">
+        <h3>Run Information</h3>
+        <table class="meta-table">
+          <tr>
+            <td class="meta-label">Target</td>
+            <td class="meta-value" id="meta-target">—</td>
+          </tr>
+          <tr>
+            <td class="meta-label">Time</td>
+            <td class="meta-value" id="meta-time">—</td>
+          </tr>
+          <tr>
+            <td class="meta-label">Duration</td>
+            <td class="meta-value" id="meta-duration">—</td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="sidebar-panel">
+        <h3>Exploration Stats</h3>
+        <table class="meta-table">
+          <tr>
+            <td class="meta-label">States Discovered</td>
+            <td class="meta-value stat-highlight" id="stat-states">0</td>
+          </tr>
+          <tr>
+            <td class="meta-label">Transitions</td>
+            <td class="meta-value stat-highlight" id="stat-transitions">0</td>
+          </tr>
+          <tr>
+            <td class="meta-label">Max Depth</td>
+            <td class="meta-value stat-highlight" id="stat-depth">0</td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="sidebar-panel">
+        <h3>Severity Breakdown</h3>
+        <table class="meta-table">
+          <tr>
+            <td class="meta-label"><span class="badge badge-high">HIGH</span></td>
+            <td class="meta-value" id="stat-high">0</td>
+          </tr>
+          <tr>
+            <td class="meta-label"><span class="badge badge-medium">MEDIUM</span></td>
+            <td class="meta-value" id="stat-medium">0</td>
+          </tr>
+          <tr>
+            <td class="meta-label"><span class="badge badge-low">LOW</span></td>
+            <td class="meta-value" id="stat-low">0</td>
+          </tr>
+        </table>
+      </div>
+    </aside>
+  </div>
+</div>
+
+<!-- Dummy Data Fallback for Development -->
+<script>
+if (!window.SIMTEST_DATA) {
+  window.SIMTEST_DATA = {
+    timestamp: new Date().toISOString(),
+    targetUrl: "http://localhost:5173",
+    stats: { totalStates: 0, totalTransitions: 0, totalBugs: 0, explorationDepth: 0, duration: 0 },
+    bugs: [], graph: { nodes: [], edges: [] }
+  };
+}
+</script>
+
+<!-- Note: dashboard-data.js will only be loaded if running from simtest-core/dashboard -->
+<script>
+  // Attempt to load the data file generated by the explorer
+  const script = document.createElement('script');
+  script.src = '../simtest-core/dashboard/dashboard-data.js';
+  script.onerror = () => {
+    const fallbackScript = document.createElement('script');
+    fallbackScript.src = 'dashboard-data.js'; // Try local
+    document.head.appendChild(fallbackScript);
+  };
+  document.head.appendChild(script);
+</script>
+<script src="dashboard.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,42 @@
+{
+  "name": "simtest-core",
+  "version": "1.0.0",
+  "description": "SimTest — Autonomous web application testing engine powered by BFS state exploration and Playwright",
+  "main": "src/index.js",
+  "bin": {
+    "simtest": "src/index.js"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "test": "jest"
+  },
+  "keywords": [
+    "testing",
+    "playwright",
+    "autonomous",
+    "bfs",
+    "state-graph",
+    "bug-detection"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@dagrejs/graphlib": "^2.2.4",
+    "@google/generative-ai": "^0.24.1",
+    "axios": "^1.18.1",
+    "chalk": "^4.1.2",
+    "cheerio": "^1.2.0",
+    "commander": "^13.1.0",
+    "dotenv": "^17.4.2",
+    "ora": "^5.4.1",
+    "playwright": "^1.52.0"
+  },
+  "devDependencies": {
+    "@types/cheerio": "^0.22.35",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^26.0.0",
+    "jest": "^30.4.2",
+    "ts-jest": "^29.4.11",
+    "typescript": "^6.0.3"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "name": "simtest",
+  "version": "1.0.0",
+  "description": "SimTest — World Model Based Autonomous Testing Framework",
+  "private": true,
+  "workspaces": [
+    "demo-app",
+    "simtest-core"
+  ],
+  "scripts": {
+    "demo": "npm run dev --workspace=demo-app",
+    "test:explore": "npm run start --workspace=simtest-core",
+    "setup": "npm install"
+  },
+  "keywords": ["testing", "autonomous", "world-model", "playwright", "state-exploration"],
+  "author": "",
+  "license": "MIT"
+}
